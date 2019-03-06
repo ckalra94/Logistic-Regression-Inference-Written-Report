@@ -1,0 +1,59 @@
+---
+title: "Econ610Hw11"
+author: "Chris Kalra"
+date: "11/28/2018"
+output: html_document
+---
+
+#Exercise 1
+```{r}
+#b)
+#vegas=data
+regr1b=lm(favwin~spread, data=vegas)
+summary(regr1b)
+2*(1-pnorm(2.725340889))
+#d)
+regr1d = glm(favwin ~ spread, family=binomial(link="probit"), data=vegas)
+summary(regr1d)
+#e)
+pnorm(-0.01059 + 0.09246*10)
+#f)
+regr1f=glm(favwin~spread + favhome + fav25 + und25, family=binomial(link="probit"), data=vegas)
+onefscore = 2*(logLik(regr1f) - logLik(regr1d)) ; onefscore
+1-pchisq(onefscore, df=3)
+```
+
+#Exercise 2
+```{r}
+#a)
+#loans=data
+regr2a=glm(approve ~ white, family=binomial(link="probit"), data=loans)
+summary(regr2a)
+pnorm(0.54695)
+pnorm(0.54695 + 0.78395 )
+regr2aLinear=lm(approve ~ white, data=loans)
+summary(regr2aLinear)
+#b)
+regr2b=glm(approve ~ white + hrat + obrat + loanprc + unem + male + married + dep + sch + cosign + chist + pubrec + mortlat1 + mortlat2 + vr, family=binomial(link="probit"), data=loans)
+summary(regr2b)
+#c)
+regr2c=glm(approve ~ white + hrat + obrat + loanprc + unem + male + married + dep + sch + cosign + chist + pubrec + mortlat1 + mortlat2 + vr, family=binomial(link="logit"), data=loans)
+summary(regr2c)
+#d)
+install.packages("margins")
+library("margins")
+summary(margins(regr2b, variables="white"))
+summary(margins(regr2c, variables="white"))
+```
+
+#Exercise 3
+```{r}
+#d) 
+ThreeD = 2*(-2401.8537 + 2842.1976) ; ThreeD
+1-pchisq(ThreeD, df= 2)
+#e)
+pnorm(-1.807 + .195*1 + .267*0 + 2.124*.25)
+qnorm(pnorm(-1.807 + .195*1 + .267*0 + 2.124*.25))
+plot(density(0, 1, kernel=c("gaussian")), xlab="", main="")
+abline(v=-1.081)
+```
